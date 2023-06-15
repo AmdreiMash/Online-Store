@@ -8,6 +8,11 @@ const EslingPlugin = require('eslint-webpack-plugin');
 const baseConfig = {
   entry: path.resolve(__dirname, './src/index'),
   mode: 'development',
+  output: {
+    filename: 'index.js',
+    path: path.resolve(__dirname, './docs'),
+    publicPath: '/',
+  },
   module: {
     rules: [
       {
@@ -29,14 +34,22 @@ const baseConfig = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
+      // html
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+        options: {},
+      },
+      //React
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js'],
-  },
-  output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname, '../TS/app'),
+    extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
     new EslingPlugin({ extensions: 'ts' }),
